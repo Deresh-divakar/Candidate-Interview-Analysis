@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Scoring</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            transition: opacity 0.6s ease-in-out;
+            opacity: 0;
+        }
+        body.loaded {
+            opacity: 1;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f8f8f8;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+        }
+        input, textarea {
+            padding: 10px;
+            margin-top: 5px;
+            width: 100%;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            margin-top: 30px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Candidate Interview Scoring</h1>
+        <form action="/submit" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="communication">Communication Skills (1-10):</label>
+            <input type="number" id="communication" name="communication" min="1" max="10" required>
+
+            <label for="problem_solving">Problem Solving (1-10):</label>
+            <input type="number" id="problem_solving" name="problem_solving" min="1" max="10" required>
+
+            <label for="technical">Technical Knowledge (1-10):</label>
+            <input type="number" id="technical" name="technical" min="1" max="10" required>
+
+            <label for="teamwork">Teamwork (1-10):</label>
+            <input type="number" id="teamwork" name="teamwork" min="1" max="10" required>
+
+            <label for="adaptability">Adaptability (1-10):</label>
+            <input type="number" id="adaptability" name="adaptability" min="1" max="10" required>
+
+            <label for="comment">Comment:</label>
+            <textarea id="comment" name="comment" rows="4" placeholder="Write your comments here"></textarea>
+
+            <button type="submit">Submit</button>
+            
+        </form>
+
+        <h2>Scores</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Communication Skills</th>
+                <th>Problem Solving</th>
+                <th>Technical Knowledge</th>
+                <th>Teamwork</th>
+                <th>Adaptability</th>
+                <th>Comment</th>
+            </tr>
+            {% for score in scores %}
+            <tr>
+                <td>{{ score['Name'] }}</td>
+                <td>{{ score['Communication Skills'] }}</td>
+                <td>{{ score['Problem Solving'] }}</td>
+                <td>{{ score['Technical Knowledge'] }}</td>
+                <td>{{ score['Teamwork'] }}</td>
+                <td>{{ score['Adaptability'] }}</td>
+                <td>{{ score['Comment'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href="/top_candidates"><button>View Top Candidates</button></a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Add 'loaded' class to trigger smooth fade-in
+            $('body').addClass('loaded');
+        });
+    </script>
+    <a href="/save_and_shutdown"><button>Save and Shutdown</button></a>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Interview Analysis</title>
+    <style>
+        body {
+            background: radial-gradient(90deg, red, orange);
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            width: 80%;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #ff5733;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #c0392b;
+        }
+        #plot {
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Choose Visualization</h1>
+        <button id="plot1-btn">Candidate Ranking</button>
+        <button id="plot2-btn">Sentiment Analysis</button>
+        <div id="plot"></div>
+    </div>
+
+    <script>
+        function loadPlot(url) {
+            const plotContainer = document.getElementById('plot');
+            plotContainer.style.opacity = 0;  // Smooth transition before loading
+    
+            // Log the URL being fetched
+            console.log('Fetching plot from:', url);
+    
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Log the received data
+                    console.log('Received plot data:', data);
+                    
+                    plotContainer.innerHTML = data.plot;
+                    setTimeout(() => {
+                        plotContainer.style.opacity = 1;  // Smooth transition after loading
+                    }, 300);
+                })
+                .catch(error => {
+                    console.error('Error loading plot:', error);
+                    plotContainer.innerHTML = '<p>Error loading plot.</p>';  // Display error message to user
+                });
+        }
+    
+        // Attach event listeners
+        document.getElementById('plot1-btn').addEventListener('click', () => loadPlot('/get_plot1'));
+        document.getElementById('plot2-btn').addEventListener('click', () => loadPlot('/get_plot2'));
+    
+        // Optionally load the first plot by default
+        window.onload = function () {
+            loadPlot('/get_plot1');
+        };
+    </script>
+    
+</body>
+</html>
